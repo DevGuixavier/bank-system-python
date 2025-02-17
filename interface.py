@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from banco import depositar, sacar, exibir_extrato
+from banco import depositar, encontrar_conta, sacar, exibir_extrato
 from users import contas
 
 usuario_atual = None
@@ -9,6 +9,10 @@ def login():
     global usuario_atual
     usuario = entry_usuario.get()
     senha = entry_senha.get()
+    
+    if not usuario or not senha:
+        messagebox.showerror("Erro", "Usuário e senha não podem estar vazios!")
+        return
     
     if usuario in contas and contas[usuario]["senha"] == senha:
         usuario_atual = usuario
@@ -40,7 +44,9 @@ def operacao_extrato():
     messagebox.showinfo("Extrato", extrato_texto)
 
 def atualizar_saldo():
-    label_saldo.config(text=f"Saldo: R$ {contas[usuario_atual]['saldo']:.2f}")
+    conta = encontrar_conta(usuario_atual)
+    if conta:
+        label_saldo.config(text=f"Saldo: R$ {conta['saldo']:.2f}")
 
 def abrir_tela_principal():
     global label_saldo, entry_valor, tela_principal
@@ -49,11 +55,12 @@ def abrir_tela_principal():
     tela_principal.title("Sistema Bancário")
     tela_principal.geometry("300x300")
     
-    
     tk.Label(tela_principal, text=f"Bem-vindo, {usuario_atual}!", font=("Arial", 12)).pack(pady=10)
     
-    label_saldo = tk.Label(tela_principal, text=f"Saldo: R$ {contas[usuario_atual]['saldo']:.2f}", font=("Arial", 12))
-    label_saldo.pack(pady=5)
+    conta = encontrar_conta(usuario_atual)
+    if conta:
+        label_saldo = tk.Label(tela_principal, text=f"Saldo: R$ {conta['saldo']:.2f}", font=("Arial", 12))
+        label_saldo.pack(pady=5)
     
     entry_valor = tk.Entry(tela_principal)
     entry_valor.pack(pady=5)
@@ -65,19 +72,23 @@ def abrir_tela_principal():
     
     tela_principal.mainloop()
 
-# Tela de login
-tela_login = tk.Tk()
-tela_login.title("Login")
-tela_login.geometry("250x200")
+def inicializar_tela_login():
+    global entry_usuario, entry_senha, tela_login
+    
+    tela_login = tk.Tk()
+    tela_login.title("Login")
+    tela_login.geometry("250x200")
+    
+    tk.Label(tela_login, text="Usuário: ").pack(pady=5)
+    entry_usuario = tk.Entry(tela_login)
+    entry_usuario.pack(pady=5)
+    
+    tk.Label(tela_login, text="Senha: ").pack(pady=5)
+    entry_senha = tk.Entry(tela_login, show="*")
+    entry_senha.pack(pady=5)
+    
+    tk.Button(tela_login, text="Entrar", command=login).pack(pady=10)
+    
+    tela_login.mainloop()
 
-tk.Label(tela_login, text="Usuário: ").pack(pady=5)
-entry_usuario = tk.Entry(tela_login)
-entry_usuario.pack(pady=5)
-
-tk.Label(tela_login, text="Senha: ").pack(pady=5)
-entry_senha = tk.Entry(tela_login, show="*")
-entry_senha.pack(pady=5)
-
-tk.Button(tela_login, text="Entrar", command=login).pack(pady=10)
-
-tela_login.mainloop()
+inicializar_tela_login()
