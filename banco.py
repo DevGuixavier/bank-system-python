@@ -1,13 +1,12 @@
 import datetime
-from users import contas, LIMITE_SAQUES, LIMITE_VALOR_SAQUE  # Importa o dicionário de contas
+from users import contas, LIMITE_SAQUES, LIMITE_VALOR_SAQUE  
 
-# Constantes de erro
 VALOR_INVALIDO = "Valor inválido!"
 LIMITE_SAQUE_EXCEDIDO = "Valor do saque excede o limite!"
 SALDO_INSUFICIENTE = "Saldo insuficiente!"
 LIMITE_SAQUES_EXCEDIDO = "Número máximo de saques excedido!"
 
-usuarios = []  # Aqui fica a lista de usuários, não mexemos
+usuarios = []  s
 
 def formatar_data():
     return datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -29,7 +28,7 @@ def criar_conta(usuario):
         "extrato": "",
         "numero_saques": 0
     }
-    contas[usuario] = conta  # Alterei para armazenar a conta no dicionário de contas
+    contas[usuario] = conta  
     return conta
 
 def listar_usuarios():
@@ -39,7 +38,7 @@ def listar_contas():
     return contas
 
 def encontrar_conta(usuario):
-    return contas.get(usuario)  # Usando o método get() para procurar a conta diretamente no dicionário
+    return contas.get(usuario)  
 
 def depositar(usuario, valor):
     conta = encontrar_conta(usuario)
