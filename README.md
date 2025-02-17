@@ -60,7 +60,3 @@ Após o login, você poderá acessar as opções de **depósito**, **saque** e *
 - `users.py`: Define as contas e usuários do sistema.
 - `main.py`: Executa a interface gráfica e coordena as interações do usuário com o sistema bancário.
   
-## Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
